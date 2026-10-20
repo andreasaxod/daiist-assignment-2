@@ -1,0 +1,232 @@
+{
+  "dataset": {
+    "workspace": "cuizh",
+    "project": "water-rescue-dataset",
+    "version": 1
+  },
+  "training": {
+    "base_model": "yolo11n",
+    "epochs_requested": 50,
+    "imgsz": 512,
+    "batch": 16,
+    "patience": 10,
+    "seed": 0,
+    "device": "cuda",
+    "ultralytics": "8.4.173",
+    "torch": "2.11.0+cu128"
+  },
+  "zero_shot_mapping": {
+    "coco_class": "person",
+    "dataset_class": "swimmer"
+  },
+  "split": "test",
+  "models": {
+    "finetuned": {
+      "map50": 0.8418,
+      "map50_95": 0.3471,
+      "conf_threshold": 0.25,
+      "per_class": {
+        "drowning": {
+          "instances": 80,
+          "ap50": 0.7901,
+          "ap50_95": 0.3402,
+          "precision": 0.7808,
+          "recall": 0.7125,
+          "tp": 57,
+          "fp": 16,
+          "fn": 23
+        },
+        "float": {
+          "instances": 44,
+          "ap50": 0.9131,
+          "ap50_95": 0.2977,
+          "precision": 0.7407,
+          "recall": 0.9091,
+          "tp": 40,
+          "fp": 14,
+          "fn": 4
+        },
+        "swimmer": {
+          "instances": 144,
+          "ap50": 0.8221,
+          "ap50_95": 0.4033,
+          "precision": 0.7421,
+          "recall": 0.8194,
+          "tp": 118,
+          "fp": 41,
+          "fn": 26
+        }
+      },
+      "confusion_matrix": [
+        [
+          57,
+          0,
+          2,
+          21
+        ],
+        [
+          0,
+          40,
+          0,
+          4
+        ],
+        [
+          1,
+          0,
+          118,
+          25
+        ],
+        [
+          15,
+          14,
+          39,
+          0
+        ]
+      ],
+      "confusion_labels": [
+        "drowning",
+        "float",
+        "swimmer",
+        "background"
+      ]
+    },
+    "coco_zero_shot": {
+      "map50": 0.0039,
+      "map50_95": 0.0014,
+      "conf_threshold": 0.25,
+      "per_class": {
+        "drowning": {
+          "instances": 80,
+          "ap50": 0.0,
+          "ap50_95": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 80
+        },
+        "float": {
+          "instances": 44,
+          "ap50": 0.0,
+          "ap50_95": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 44
+        },
+        "swimmer": {
+          "instances": 144,
+          "ap50": 0.0116,
+          "ap50_95": 0.0041,
+          "precision": 0.0588,
+          "recall": 0.0208,
+          "tp": 3,
+          "fp": 48,
+          "fn": 141
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          9,
+          71
+        ],
+        [
+          0,
+          0,
+          0,
+          44
+        ],
+        [
+          0,
+          0,
+          3,
+          141
+        ],
+        [
+          0,
+          0,
+          39,
+          0
+        ]
+      ],
+      "confusion_labels": [
+        "drowning",
+        "float",
+        "swimmer",
+        "background"
+      ]
+    },
+    "predict_nothing": {
+      "map50": 0.0,
+      "map50_95": 0.0,
+      "conf_threshold": 0.25,
+      "per_class": {
+        "drowning": {
+          "instances": 80,
+          "ap50": 0.0,
+          "ap50_95": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 80
+        },
+        "float": {
+          "instances": 44,
+          "ap50": 0.0,
+          "ap50_95": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 44
+        },
+        "swimmer": {
+          "instances": 144,
+          "ap50": 0.0,
+          "ap50_95": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 144
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          0,
+          80
+        ],
+        [
+          0,
+          0,
+          0,
+          44
+        ],
+        [
+          0,
+          0,
+          0,
+          144
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "confusion_labels": [
+        "drowning",
+        "float",
+        "swimmer",
+        "background"
+      ]
+    }
+  }
+}
