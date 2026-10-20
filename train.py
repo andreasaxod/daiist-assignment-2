@@ -17,6 +17,7 @@ from dataset import (
     download_dataset,
     write_local_yaml,
 )
+from costing import run_costing
 from duplicates import DUPLICATE_MAX_DISTANCE, SWEEP_THRESHOLDS, find_duplicates
 from evaluate import evaluate_predictions, load_ground_truth, predict
 
@@ -179,6 +180,7 @@ def main() -> None:
     RESULTS_DIR.mkdir(exist_ok=True)
     (RESULTS_DIR / "metrics.json").write_text(json.dumps(payload, indent=2))
     show(results)
+    run_costing(dataset_dir, names, weights, IMGSZ)
 
 
 if __name__ == "__main__":
