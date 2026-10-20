@@ -37,7 +37,20 @@ def class_names(dataset_dir: Path) -> list[str]:
     return list(names)
 
 
-def read_boxes(label_file: Path) -> list[tuple[int, float, float]]:
+def write_local_yaml(dataset_dir: Path) -> Path:
+    config = {
+        "path": str(dataset_dir.resolve()),
+        "train": "train/images",
+        "val": "valid/images",
+        "test": "test/images",
+        "names": {index: name for index, name in enumerate(class_names(dataset_dir))},
+    }
+    target = dataset_dir / "local.yaml"
+    target.write_text(yaml.safe_dump(config))
+    return target
+
+
+def read_boxes(label_file: Path) -> list[tuple[int, float, float, float, float]]:
     boxes = []
     for line in label_file.read_text().splitlines():
         parts = line.split()
@@ -45,11 +58,12 @@ def read_boxes(label_file: Path) -> list[tuple[int, float, float]]:
             continue
         values = np.array(parts[1:], dtype=float)
         if len(values) == 4:
-            width, height = values[2], values[3]
+            cx, cy, width, height = values
         else:
             xs, ys = values[0::2], values[1::2]
             width, height = xs.max() - xs.min(), ys.max() - ys.min()
-        boxes.append((int(float(parts[0])), float(width), float(height)))
+            cx, cy = (xs.max() + xs.min()) / 2, (ys.max() + ys.min()) / 2
+        boxes.append((int(float(parts[0])), float(cx), float(cy), float(width), float(height)))
     return boxes
 
 
@@ -90,7 +104,7 @@ def collect(dataset_dir: Path):
                     "boxes": len(boxes),
                 }
             )
-            for class_id, width, height in boxes:
+            for class_id, _, _, width, height in boxes:
                 box_rows.append(
                     {
                         "split": split,
