@@ -17,8 +17,15 @@ mistake is worse, roughly by how much, and why. Everything downstream (your
 threshold, how much you send to a person, which metric you care about) has to trace
 back to this section.*
 
-* adadad
+* The decision this model supports is whether the system tells a lifeguard if a swimmer looks like they are drowning. Currently, a lifeguard must decide based on watching the water. This model is meant to assist the lifeguard in their duties.
+* The model functions in an indoor pool with four cameras, each in a corner of the pool. Each camera takes one picture every 5 seconds, and the model analyzes each image. If a swimmer appears to be drowning, the system alerts the lifeguard to check and proceed.
+* In this model, the positive class will be for "drowning". Each picture is one case, and the pool is open from 8:00 to 18:00. This means the system will review 28,800 pictures a day (4 cameras x 720 pictures per hour x 10 hours).
 
+The two mistakes cost very different amounts: 
+* A false alarm: The lifeguard looks at a swimmer who is fine, which takes about 30 seconds. This costs €0.117, because a lifeguard costs the pool around €14.05 an hour.
+* A missed drowning: This consists of a picture that shows someone in trouble and nobody is told. I price this at €42.50. A death costs around €170,000 in compensation. After research, I found out that about 0.15% of serious incidents end in a death. In our data, about one incident shows up in about 6 pictures, so I split the cost over 6 pictures: 170,000 x 0.0015 / 6 = €42.50.
+
+In short, one miss is about 360 times worse than one false alarm. Drowning, however, is very rare: only about 6 pictures in a million show it. This shapes every choice below: how often it really happens, which score I lead with (drowning recall), where the threshold goes, and how few pictures a person needs to check.
 
 
 ## Dataset
