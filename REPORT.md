@@ -4,10 +4,10 @@
 defend any of this without your code in front of you. Write only what you
 can actually explain.*
 
-- **Name**:
-- **Student ID**:
-- **Email**:
-- **Group**: [BBADBA 5A | BBADBA 5B | PPLEDBA 5A | BDBA 3A]
+- **Name**: Andrea Saxod
+- **Student ID**: 18996
+- **Email**: asaxod.ieu2022@student.ie.edu
+- **Group**: BBADBA 5A
 
 ## Business problem, and the cost of being wrong
 
@@ -16,6 +16,10 @@ when it's wrong in each direction. Be concrete about the asymmetry: which
 mistake is worse, roughly by how much, and why. Everything downstream (your
 threshold, how much you send to a person, which metric you care about) has to trace
 back to this section.*
+
+* adadad
+
+
 
 ## Dataset
 
