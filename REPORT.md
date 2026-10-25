@@ -36,9 +36,15 @@ The data is split into 3,846 training images, 369 validation images, and 181 tes
 | float | 1,069 / 143 / 44 | 7 | 0.6% (70% of boxes are under 1%) | 1,156 of 1,256 from drones |
 | swimmer | 2,951 / 284 / 144 | 94 | 6.6% | 2,627 of 3,379 from a webcam |
 
-I had to guess the image source from the start of each file name, so this is only a rough guide for me.
+I had to guess the image source from the start of each filename, so this is only a rough guide.
 This means how much I can trust my results:
-* ##Each image only has one class.## 
+* **Each image only has one class:** The model never observed a drowning person next to swimmers or empty water. The test set has 80 images with drowning and 101 without.
+* **The class and image source go together:** Drowning images are primarily from the web, while float images are from drones, and swimmer images are from webcams. The model may learn partly from the type of pictures, not what the person is doing. The test set follows this same pattern, so it cannot show this problem.
+* **Float has very little data **: Only 7 of the test images contain it, and its boxes are tiny. I trust the float class scores the least.
+* **Drowning pictures are close-ups**: The typical box covers 38% of the picture, which a pool camera does not see. I haven't had the opportunity to test how well it works on real camera pictures.
+* **The test set is too close to the training set**: 49 file names appear in both the train and test sets. I also ran a check that finds near-duplicate pictures. It flagged 95 of the 181 test images as close to a training or validation image, with 35 very close. When I remove these images, the main score (mAP50) drops from 0.878 to 0.874, 0.868, and 0.832 as I count more images as “too close.” A close match does not prove a copy. Some may be different frames from the same scene, which would also make the test unfair. I did not run this check on real photos.
+* **The dataset is about 44% drowning pictures**: a real pool almost never has drowning situations. So the precision I measure on the test set will not hold in a real pool.
+For these reasons, I estimate the mAP50 range at 0.83 to 0.88. 
 
 ## Finetuning and baselines
 
