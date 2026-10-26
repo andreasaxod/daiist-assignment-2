@@ -47,11 +47,18 @@ This means how much I can trust my results:
 For these reasons, I estimate the mAP50 range at 0.83 to 0.88. 
 
 ## Finetuning and baselines
+For my case, I fine-tuned YOLO11n, a small model that finds and names objects in pictures. I chose detection because the labels are class-labeled boxes. I trained it on my laptop using an NVIDIA RTX 4050. Settings were: pictures at 512 pixels, 16 pictures at a time, seed 0, up to 100 epochs, and stop if there is no improvement for 10 rounds. In this case, training ran for 56 epochs, with the best at epoch 46 (mAP50 0.840 and mAP50-95 0.360 on validation). It stopped 10 epochs later as planned, with the best model being saved in 'weights/best.pt'.
 
-*Which model and task (detection or classification) and why. A results table on
-the same test split: your finetuned model, the pretrained COCO model zero-shot,
-and a trivial baseline. What changed, and whether the gap is as large as you
-expected.*
+I tested three models on the same 181 test images:
+| Model | mAP50 | mAP50-95 |
+|:---|---:|---:|
+| My finetuned YOLO11n | 0.878 | 0.378 |
+| Pretrained COCO model, with no training on my data | 0.004 | 0.001 |
+| A model that predicts nothing | 0.000 | 0.000 |
+
+mAP50 is a score from 0 to 1 that counts a box as right if it covers at least half of the real box. mAP50-95 is stricter: it also requires boxes to match almost exactly.
+My model beat both baselines by a very large margin. Part of the gap is built in: the COCO model has no drowning class and no float class, so it scores zero on both. The fairest comparison is on swimmers. For this, I treated COCO's "person" as "swimmer". It found only 3 of 144 swimmers and drew 48 wrong boxes. My model, however, scored 0.867 on swimmers. A model that predicts nothing is the lowest bar any useful model can beat.
+My first run on 50 epochs scored 0.842. The final run scored 0.078 on the test set. That is higher than its 0.840 on validation, which is a little odd, since we picked the best epoch using validation. Test pictures closer to the training pictures than the validation pictures caused this. Random luck with only 181 test images could too. I am not exactly sure which.
 
 ## Per-class evaluation and failure modes
 
