@@ -11,7 +11,7 @@
 
 The two mistakes cost very different amounts: 
 * A false alarm: The lifeguard looks at a swimmer who is fine, which takes about 30 seconds. This costs €0.117, because a lifeguard costs the pool around €14.05 an hour.
-* A missed drowning: This consists of a picture that shows someone in trouble and nobody is told. I price this at €42.50. A death costs around €170,000 in compensation. After research, I found out that about 0.15% of serious incidents end in a death. In our data, about one incident appears in about 6 pictures, so I split the cost across 6 pictures: 170,000 x 0.0015 / 6 = €42.50.
+* A missed drowning: This consists of a picture that shows someone in trouble and nobody is told. I price this at €42.50. A death costs around €170,000 in compensation. After research, I estimated that about 0.15% of serious incidents end in a death. An incident lasts about 30 seconds, so it shows up in about 6 pictures, so I split the cost across 6 pictures: 170,000 x 0.0015 / 6 = €42.50.
 
 In short, one miss is about 360 times worse than one false alarm. Drowning, however, is very rare: only about 6 pictures in a million show it. This shapes every choice below: how often it really happens, which score I lead with (drowning recall), where the threshold goes, and how few pictures a person needs to check.
 
@@ -50,7 +50,7 @@ I tested three models on the same 181 test images:
 | A model that predicts nothing | 0.000 | 0.000 |
 mAP50 is a score from 0 to 1 that counts a box as right if it covers at least half of the real box. mAP50-95 is stricter: it also requires boxes to match almost exactly.
 My model beat both baselines by a very large margin. Part of the gap is built in: the COCO model has no drowning class and no float class, so it scores zero on both. The fairest comparison is on swimmers. For this, I treated COCO's "person" as "swimmer". It found only 3 of 144 swimmers and drew 48 wrong boxes. My model, however, scored 0.867 on swimmers. A model that predicts nothing is the lowest bar any useful model can beat.
-My first run on 50 epochs scored 0.842. The final run scored 0.878 on the test set. That is higher than its 0.840 on validation, which is a little odd, since we picked the best epoch using validation. This was caused by test pictures being closer to the training pictures than the validation pictures. Random luck with only 181 test images could have played a role, too. I am not exactly sure which.
+My first run on 50 epochs scored 0.842. The final run scored 0.878 on the test set. That is higher than its 0.840 on validation, which is a little odd, since we picked the best epoch using validation. This could be caused by test pictures being closer to the training pictures than the validation pictures. Random luck with only 181 test images could have played a role, too. I am not exactly sure which.
 
 ## Per-class evaluation and failure modes
 In this case, precision is how many alerts were correct. Recall means how many real cases were caught. AP50 is a 0-to-1 score per class. The numbers below use a confidence of 0.25.
